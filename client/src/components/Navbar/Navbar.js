@@ -1,6 +1,12 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Navbar() {
+    const navigate = useNavigate();
+    const logout = () => {
+        localStorage.removeItem("user")
+        navigate("/login")
+      }
   return (
     <div className="navbar bg-base-100" style={{ backgroundColor: '#87bfff' }}>
         <div className="navbar-start">
@@ -20,6 +26,7 @@ export default function Navbar() {
         </div>
         <div className="navbar-end">
                     <button
+                        onClick={logout}
                         type="button"
                         className="rounded-full  p-1 text-black hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" 
                         >

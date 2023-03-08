@@ -1,13 +1,37 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState,useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { publicRequest } from '../../hooks/requestMethods';
 
 export default function LoginPage() {
 
-    const handleChange = (e) => {}
+    const [cordentials, setCordentials] = useState({username:"",password:""})
+    const navigate = useNavigate();
 
-    const handleLogin = (e) => {}
+    // function to handel change input and set the to cordentials
+    const handleChange = (e) => {
+        const {id,value} = e.target
+        setCordentials({...cordentials,[id]:value})
+
+    }
+
+    // function to handel Login
+    const handleLogin = () => {
+        publicRequest().post("auth/login",cordentials)
+        .then((res) => {
+
+            // save user info with current date includedin local storage
+            localStorage.setItem("user",JSON.stringify({...res.data, date: new Date()})) 
+            navigate('/');
+
+        })
+        .catch((err) => {
+          
+            window.alert(err.response.data)
+        })
+    }
   return (
-    <div className="ritght4" >
+    <div className="" >
         <div class="flex items-center justify-center h-screen ">
         
         <div class="w-full max-w-xs">

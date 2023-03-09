@@ -1,53 +1,37 @@
-import React from 'react'
+import { useState, useEffect,Suspense,lazy } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
 import PartyCard from '../../components/PartyCard/PartyCrad'
 
+import { publicRequest } from '../../hooks/requestMethods';
+
 export default function HomePage() {
+    const [events, setEvents] = useState([])
+    const [user, setUser] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null);
+    const PartyCard = lazy(() => import('../../components/PartyCard/PartyCrad'))
+    // get events from server
+    useEffect(() => {
+        publicRequest(user.accessToken).get("event/all")
+            .then((res) => {
+                setEvents(res.data)
+                console.log(res.data)
+            })
+            .catch((err) => {
+                console.log(err.response.data)
+            })
+    }, [user])
+
   return (
     <div className="bg-blue-200 flex flex-wrap justify-start justify-evenly">
-      <div>
-        <div className="relative card w-full md:w-96 bg-base-100 shadow-xl flex flex-col">
-  <figure className="px-4 md:px-10 pt-8 md:pt-10">
-    <img src="https://source.unsplash.com/random/300x200/?party" alt="Party" className="rounded-xl object-cover w-full h-full" />
-  </figure>
-  <div className="card-body flex flex-col justify-center items-center py-4 md:py-6">
-    <h2 className="card-title text-lg md:text-2xl font-bold mb-2 md:mb-4">Party Info</h2>
-    <p className="text-gray-500 mb-2 md:mb-4">Date: March 15, 2023</p>
-    <p className="text-gray-500 mb-2 md:mb-4">Time: 7:00 PM - 11:00 PM</p>
-    <p className="text-gray-500 mb-2 md:mb-4">Location: 123 Main St, Anytown, USA</p>
-  </div>
-  
-</div>
-    </div>
-<div>
-        <div className="relative card w-full md:w-96 bg-base-100 shadow-xl flex flex-col">
-  <figure className="px-4 md:px-10 pt-8 md:pt-10">
-    <img src="https://source.unsplash.com/random/300x200/?consert" alt="Party" className="rounded-xl object-cover w-full h-full" />
-  </figure>
-  <div className="card-body flex flex-col justify-center items-center py-4 md:py-6">
-    <h2 className="card-title text-lg md:text-2xl font-bold mb-2 md:mb-4">Party Info</h2>
-    <p className="text-gray-500 mb-2 md:mb-4">Date: March 15, 2023</p>
-    <p className="text-gray-500 mb-2 md:mb-4">Time: 7:00 PM - 11:00 PM</p>
-    <p className="text-gray-500 mb-2 md:mb-4">Location: 123 Main St, Anytown, USA</p>
-  </div>
-  
-</div>
-    </div>
-<div>
-        <div className="relative card w-full md:w-96 bg-base-100 shadow-xl flex flex-col">
-  <figure className="px-4 md:px-10 pt-8 md:pt-10">
-    <img src="https://source.unsplash.com/random/300x200/?weding" alt="weding" className="rounded-xl object-cover w-full h-full" />
-  </figure>
-  <div className="card-body flex flex-col justify-center items-center py-4 md:py-6">
-    <h2 className="card-title text-lg md:text-2xl font-bold mb-2 md:mb-4">Party Info</h2>
-    <p className="text-gray-500 mb-2 md:mb-4">Date: March 15, 2023</p>
-    <p className="text-gray-500 mb-2 md:mb-4">Time: 7:00 PM - 11:00 PM</p>
-    <p className="text-gray-500 mb-2 md:mb-4">Location: 123 Main St, Anytown, USA</p>
-  </div>
-  
-</div>
-    </div>
-<PartyCard/>
+        <Suspense fallback={<div>Loading...</div>}>
+            {events.map((event) => (
+                <div className="mb-10">
+                    <PartyCard params={event} />
+                </div>
+            ))}
+        </Suspense>
+        
+      
+    
    </div>
 
   

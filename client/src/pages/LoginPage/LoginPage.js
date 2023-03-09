@@ -6,6 +6,7 @@ import { publicRequest } from '../../hooks/requestMethods';
 export default function LoginPage() {
 
     const [cordentials, setCordentials] = useState({username:"",password:""})
+  
     const navigate = useNavigate();
 
     // function to handel change input and set the to cordentials

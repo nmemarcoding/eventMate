@@ -1,4 +1,5 @@
 import { BrowserRouter as Router,Routes,Route} from 'react-router-dom';
+import { useState } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import CreatEventPage from './pages/CreatEventPage/CreatEventPage';
 import HomePage from './pages/HomePage/HomePage';
@@ -6,6 +7,9 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 
 function App() { 
+  const [user, setUser] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null);
+
+  
   return <Router>
     
     <div className="h-screen w-screen bg-blue-200">
@@ -15,11 +19,11 @@ function App() {
 
   <div className="mt-5">
     <Routes>
-
-      <Route path="/createvent" element={<CreatEventPage/>}/>
+      
+      <Route path="/createvent" element={user && (new Date().getTime() - new Date(user.date).getTime()) < 259200000 ? <CreatEventPage/> : <LoginPage/>}/>
       <Route path="/login" element={<LoginPage/>}/> 
       <Route path="/signup" element={<SignUpPage/>}/>
-      <Route path="/" element={<HomePage/>}/> 
+      <Route path="*" element={user && (new Date().getTime() - new Date(user.date).getTime()) < 259200000 ? <HomePage/> : <LoginPage/>}/> 
     </Routes>
   </div>
 </div>

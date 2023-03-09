@@ -3,9 +3,39 @@ const auth = require("../middlewear/auth.js");
 const Event = require("../models/event.js");
 const Gest = require("../models/gest.js");
 
+
 const accountSid = "AC87c0eb0aeb724d6694655e45d47cb6ef";
 const authToken = "11ddd7772da834d8b9401ba12828ea55";
 const client = require('twilio')(accountSid, authToken);
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'outlook',
+    auth: {
+        user: 'nmemarcoding@outlook.com',
+        pass: 'Nima1377@'
+    }
+});
+ const options = {
+    from: 'nmemarcoding@outlook.com',
+    to: 'soheil.memar@yahoo.com',
+    subject: 'test',
+    text: 'najoor san for second time'
+};
+
+
+
+// rout to find all event by host id and send it to front end by sort by date
+router.get("/all", auth, async(req, res) => {
+    try {
+        const events = await Event.find({ host: req.userId }).sort({ date: 1 });
+        res.status(200).json(events);
+    } catch (err) {
+        res.status(500).json(err);
+        console.log(err)
+    }
+});
+
 
 // rout to create new event with hostid : req.userId
 router.post("/create", auth, async(req, res) => {
@@ -53,6 +83,14 @@ router.post("/addGest/:id",  async(req, res) => {
     // .catch(err => {
     //     console.log('Error sending message: ', err);
     // });
+    transporter.sendMail(options, function(err, info) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+   
         res.status(200).json(savedEvent);
     } catch (err) {
         res.status(500).json(err);

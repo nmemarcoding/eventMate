@@ -1,7 +1,9 @@
 import { BrowserRouter as Router,Routes,Route} from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
+import CreatEventPage from './pages/CreatEventPage/CreatEventPage';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
+import SignUpPage from './pages/SignUpPage/SignUpPage';
 
 function App() { 
   return <Router>
@@ -13,7 +15,10 @@ function App() {
 
   <div className="mt-5">
     <Routes>
+
+      <Route path="/createvent" element={<CreatEventPage/>}/>
       <Route path="/login" element={<LoginPage/>}/> 
+      <Route path="/signup" element={<SignUpPage/>}/>
       <Route path="/" element={<HomePage/>}/> 
     </Routes>
   </div>

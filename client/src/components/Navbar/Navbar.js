@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function Navbar() {
     const navigate = useNavigate();
@@ -22,9 +22,12 @@ export default function Navbar() {
             </div>
         </div>
         <div className="navbar-center">
-            <a className="btn btn-ghost normal-case text-xl">EventMate</a>
+            <Link to="/">
+                <a className="btn btn-ghost normal-case text-xl">EventMate</a>
+            </Link>
         </div>
         <div className="navbar-end">
+            
                     <button
                         onClick={logout}
                         type="button"
@@ -36,6 +39,7 @@ export default function Navbar() {
                         </svg>
 
                     </button>
+            
            
         </div>
     </div>

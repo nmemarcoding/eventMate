@@ -8,7 +8,7 @@ export default function HomePage() {
       <div>
         <div className="relative card w-full md:w-96 bg-base-100 shadow-xl flex flex-col">
   <figure className="px-4 md:px-10 pt-8 md:pt-10">
-    <img src="https://source.unsplash.com/random/300x200/?swim" alt="Party" className="rounded-xl object-cover w-full h-full" />
+    <img src="https://source.unsplash.com/random/300x200/?party" alt="Party" className="rounded-xl object-cover w-full h-full" />
   </figure>
   <div className="card-body flex flex-col justify-center items-center py-4 md:py-6">
     <h2 className="card-title text-lg md:text-2xl font-bold mb-2 md:mb-4">Party Info</h2>
@@ -22,7 +22,7 @@ export default function HomePage() {
 <div>
         <div className="relative card w-full md:w-96 bg-base-100 shadow-xl flex flex-col">
   <figure className="px-4 md:px-10 pt-8 md:pt-10">
-    <img src="https://source.unsplash.com/random/300x200/?boobs" alt="Party" className="rounded-xl object-cover w-full h-full" />
+    <img src="https://source.unsplash.com/random/300x200/?consert" alt="Party" className="rounded-xl object-cover w-full h-full" />
   </figure>
   <div className="card-body flex flex-col justify-center items-center py-4 md:py-6">
     <h2 className="card-title text-lg md:text-2xl font-bold mb-2 md:mb-4">Party Info</h2>
@@ -36,7 +36,7 @@ export default function HomePage() {
 <div>
         <div className="relative card w-full md:w-96 bg-base-100 shadow-xl flex flex-col">
   <figure className="px-4 md:px-10 pt-8 md:pt-10">
-    <img src="https://source.unsplash.com/random/300x200/?sex" alt="Party" className="rounded-xl object-cover w-full h-full" />
+    <img src="https://source.unsplash.com/random/300x200/?weding" alt="weding" className="rounded-xl object-cover w-full h-full" />
   </figure>
   <div className="card-body flex flex-col justify-center items-center py-4 md:py-6">
     <h2 className="card-title text-lg md:text-2xl font-bold mb-2 md:mb-4">Party Info</h2>

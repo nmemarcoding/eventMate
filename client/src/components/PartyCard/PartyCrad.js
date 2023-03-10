@@ -15,7 +15,7 @@ export default function PartyCrad(params) {
     <p className="text-gray-500 mb-2 md:mb-4">Time: {params.params?.time}</p>
     <p className="text-gray-500 mb-2 md:mb-4">Location: {params.params?.location}</p>
   </div>
-  <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 hover:opacity-100 transition duration-300 ease-in-out">
+  <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 hover:opacity-100 transition duration-300 ease-in-out overflow-scroll mt-3">
     <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
       <h3 className="text-lg font-medium mb-2">{params.params?.description}</h3>
       

@@ -20,15 +20,13 @@ export default function HomePage() {
                 console.log(err.response.data)
             })
     }, [user])
-    const handleClick = () => {
-        navigate(`/addguest/${params.params?._id}`)
-      }
+   
 
   return (
     <div className="bg-blue-200 flex flex-wrap justify-start justify-evenly">
         <Suspense fallback={<div>Loading...</div>}>
             {events.map((event) => (
-                <div className="mb-10" onClick={handleClick}>
+                <div className="mb-10" onClick={()=>{navigate(`/addguest/${event?._id}`)}}>
                     <PartyCard params={event} />
                 </div>
             ))}

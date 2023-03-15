@@ -24,6 +24,16 @@ const transporter = nodemailer.createTransport({
 };
 
 
+// rout to get event data base on event id
+router.get("/get/:id", async(req, res) => {
+    try {
+        const event = await Event.findById(req.params.id);
+        res.status(200).json(event);
+    } catch (err) {
+        res.status(500).json(err);
+        console.log(err)
+    }
+});
 
 // rout to find all event by host id and send it to front end by sort by date
 router.get("/all", auth, async(req, res) => {

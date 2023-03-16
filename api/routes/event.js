@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
 });
  const options = {
     from: 'nmemarcoding@outlook.com',
-    to: 'soheil.memar@yahoo.com',
+    to: 'nmemarcoding@gmail.com',
     subject: 'test',
     text: 'najoor san for second time'
 };
@@ -27,7 +27,7 @@ const transporter = nodemailer.createTransport({
 // rout to get event data base on event id
 router.get("/get/:id", async(req, res) => {
     try {
-        const event = await Event.findById(req.params.id);
+        const event = await Event.findById(req.params.id).populate("gestList");
         res.status(200).json(event);
     } catch (err) {
         res.status(500).json(err);
@@ -81,7 +81,7 @@ router.post("/addGest/:id",  async(req, res) => {
         const savedGest = await newGest.save();
         event.gestList.push(savedGest._id);
         const savedEvent = await event.save();
-        client.messages
+        
     // .create({
     //     body: `google.com/?eventid=${req.params.id}&guestid=${savedGest._id}`,
     //     from: '+18888391829',
@@ -109,13 +109,13 @@ router.post("/addGest/:id",  async(req, res) => {
 });
 
 // rout to find event by id and add guest id to accepted gest list if guest id is in gest list and make sure cant add accepted guest again
-router.post("/acceptGest/:id",  async(req, res) => {
+router.post("/acceptGest/:eventId/:guestId",  async(req, res) => {
     try {
-        const event = await Event.findById(req.params.id);
+        const event = await Event.findById(req.params.eventId);
        
 
-        if (event.gestList.includes(req.body.gestId) && !event.acceptedGestList.includes(req.body.gestId)) {
-            event.acceptedGestList.push(req.body.gestId);
+        if (event.gestList.includes(req.params.guestId) && !event.acceptedGestList.includes(req.body.gestId)) {
+            event.acceptedGestList.push(req.params.guestId);
             const savedEvent = await event.save();
             res.status(200).json(savedEvent);
         } else {
@@ -128,11 +128,11 @@ router.post("/acceptGest/:id",  async(req, res) => {
 });
 
 // rout to find event by id and delete guest id from accepted gest list 
-router.delete("/deleteGest/:id",  async(req, res) => {
+router.delete("/deleteGest/:eventId/:guestId",  async(req, res) => {
     try {
-        const event = await Event.findById(req.params.id);
-        if (event.acceptedGestList.includes(req.body.gestId)) {
-            event.acceptedGestList.pull(req.body.gestId);
+        const event = await Event.findById(req.params.eventId);
+        if (event.acceptedGestList.includes(req.params.guestId)) {
+            event.acceptedGestList.pull(req.params.guestId);
             const savedEvent = await event.save();
             res.status(200).json(savedEvent);
         } else {

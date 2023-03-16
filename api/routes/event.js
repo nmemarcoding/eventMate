@@ -114,7 +114,7 @@ router.post("/acceptGest/:eventId/:guestId",  async(req, res) => {
         const event = await Event.findById(req.params.eventId);
        
 
-        if (event.gestList.includes(req.params.guestId) && !event.acceptedGestList.includes(req.body.gestId)) {
+        if (event.gestList.includes(req.params.guestId) && !event.acceptedGestList.includes(req.params.guestId)) {
             event.acceptedGestList.push(req.params.guestId);
             const savedEvent = await event.save();
             res.status(200).json(savedEvent);

@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 import AddGuestPage from './pages/AddGuestPage/AddGuestPage';
+import EventAcceptation from './pages/EventAcceptation/EventAcceptation';
 
 function App() { 
   const [user, setUser] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null);
@@ -24,8 +25,10 @@ function App() {
           <Route path="/createvent" element={user && (new Date().getTime() - new Date(user.date).getTime()) < 259200000 ? <CreatEventPage/> : <LoginPage/>}/>
           <Route path="/login" element={<LoginPage/>}/> 
           <Route path="/signup" element={<SignUpPage/>}/>
-          // addGuestPage
+     
           <Route path="/addguest/:id" element={user && (new Date().getTime() - new Date(user.date).getTime()) < 259200000 ? <AddGuestPage/> : <LoginPage/>}/>
+          
+          <Route path="/eventacceptation/:eventId/:guestId" element={<EventAcceptation/>}/>
           <Route path="*" element={user && (new Date().getTime() - new Date(user.date).getTime()) < 259200000 ? <HomePage/> : <LoginPage/>}/> 
         </Routes>
       </div>

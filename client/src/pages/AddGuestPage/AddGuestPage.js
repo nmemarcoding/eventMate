@@ -2,6 +2,8 @@ import React, { Suspense,useState,useEffect } from 'react'
 import PartyCard from '../../components/PartyCard/PartyCrad'
 import { publicRequest } from '../../hooks/requestMethods'
 
+
+
 export default function AddGuestPage() {
 
   const [eventData,setEventData] = useState({})
@@ -22,6 +24,9 @@ export default function AddGuestPage() {
         })
 }, [])
 
+
+
+
 // on change input for guest info
 const handleChange = (e) => {
   setGuestInfo({...guestInfo,[e.target.name]:e.target.value})
@@ -34,8 +39,10 @@ const handleSubmit = (e) => {
   .then((res) => {
       // allert to say that guest added 
       window.alert("Guest Added")
-      //refresh page
-      window.location.reload()
+      //gtting last guest  from gest list
+      const lastGuest = res.data.gestList[res.data.gestList.length - 1]
+      console.log(lastGuest)
+      console.log(window.location.origin + "/eventacceptation/" + eventData._id + "/" + lastGuest)
   })
   .catch((err) => {
       console.log(err.response.data)
@@ -113,11 +120,23 @@ const guests = ["Guest 1", "Guest 2", "Guest 3"];
       <div className="max-w-md w-full px-4">
         <h2 className="text-lg font-medium my-8">Invited Guests</h2>
         <ul className="bg-white rounded-lg shadow-md divide-y divide-gray-200">
-          {eventData?.gestList?.map((guest, index) => (
-            <li key={index} className="px-6 py-4">
-              <p className="text-gray-900">{guest.name}</p>
-            </li>
-          ))}
+          {eventData?.gestList?.map((guest, index) => {
+            const getGuestClass = () => {
+              
+              if (eventData.acceptedGestList.includes(guest._id)) {
+                return "bg-green-200";
+              
+              } else {
+                return "text-gray-900";
+              }
+            };
+
+            return (
+              <li key={index} className={`px-6 py-4 ${getGuestClass()}`}>
+                <p className="text-gray-900">{guest.name}</p>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

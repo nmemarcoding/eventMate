@@ -22,6 +22,7 @@ export default function EventAcceptation() {
                     window.alert("You are not invited to this event")
                     setInvited(false)
                     // close window
+                    //refrech page
                     
                    
                 }
@@ -31,6 +32,7 @@ export default function EventAcceptation() {
                 console.log(err.response.data)
             })
     }, [])
+    
     // add youser to event acceptation list /event/acceptGest/6406e4eaae62df94bb304a4c/6406e502ae62df94bb304a53
     const handleAccept = () => {
         //  guest id and event id from url
@@ -40,8 +42,8 @@ export default function EventAcceptation() {
             .then((res) => {
                 // allert to say that guest added
                 window.alert("You are going to this event")
-                // close window
-                window.close()
+                
+                window.location.reload()
                 
             })
             .catch((err) => {
@@ -59,7 +61,7 @@ export default function EventAcceptation() {
             .then((res) => {
                 // allert to say that guest added
                 window.alert("You are not going to this event")
-                window.close()
+                window.location.reload()
 
                 
 
@@ -78,6 +80,12 @@ export default function EventAcceptation() {
           <div className="bg-blue-200 flex flex-wrap justify-start justify-evenly">
             <Suspense fallback={<div>Loading...</div>}>
               <div className="mb-10">
+                {/* adding guest name */}
+                <h1 className="text-3xl text-center mb-10">Hello {eventData.gestList?.find((guest) => guest._id === window.location.pathname.split("/")[3])?.name}</h1>
+                {/* adding guest accempted or not by cheacking if user is in the acceptedguestlist or not*/}
+                <h1 className="text-3xl text-center mb-10">
+                    {eventData.acceptedGestList?.find((guest) => guest === window.location.pathname.split("/")[3]) ? "You are going to this event" : "You are not going to this event"}
+                </h1>
                 <PartyCard params={eventData} />
               </div>
               {/* option to ask user is joining event or not */}

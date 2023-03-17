@@ -7,21 +7,7 @@ const Gest = require("../models/gest.js");
 const accountSid = "AC87c0eb0aeb724d6694655e45d47cb6ef";
 const authToken = "11ddd7772da834d8b9401ba12828ea55";
 const client = require('twilio')(accountSid, authToken);
-const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
-    service: 'outlook',
-    auth: {
-        user: 'nmemarcoding@outlook.com',
-        pass: 'Nima1377@'
-    }
-});
- const options = {
-    from: 'nmemarcoding@outlook.com',
-    to: 'nmemarcoding@gmail.com',
-    subject: 'test',
-    text: 'najoor san for second time'
-};
 
 
 // rout to get event data base on event id
@@ -93,13 +79,7 @@ router.post("/addGest/:id",  async(req, res) => {
     // .catch(err => {
     //     console.log('Error sending message: ', err);
     // });
-    transporter.sendMail(options, function(err, info) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+    
    
         res.status(200).json(savedEvent);
     } catch (err) {

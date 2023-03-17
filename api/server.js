@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const authRoute = require("./routes/auth.js");
 const eventRoute = require("./routes/event.js");
+const emailRoute = require("./routes/email.js");
 
 require('dotenv').config();
 
@@ -26,6 +27,7 @@ mongoose
 // use routes
 app.use("/api/auth", authRoute);
 app.use("/api/event", eventRoute);
+app.use("/api/email", emailRoute);
 
 
 

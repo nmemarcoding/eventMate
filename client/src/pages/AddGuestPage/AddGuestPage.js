@@ -7,7 +7,7 @@ import { publicRequest } from '../../hooks/requestMethods'
 export default function AddGuestPage() {
 
   const [eventData,setEventData] = useState({})
-  const [user, setUser] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null);
+  const [user] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null);
   const [guestInfo, setGuestInfo] = useState({name:"",phone:"",email:""})
   // geting evnt data with event id from server
   useEffect(() => {
@@ -22,6 +22,9 @@ export default function AddGuestPage() {
         .catch((err) => {
             console.log(err.response.data)
         })
+        
+       
+
 }, [])
 
 
@@ -42,7 +45,20 @@ const handleSubmit = (e) => {
       //gtting last guest  from gest list
       const lastGuest = res.data.gestList[res.data.gestList.length - 1]
       console.log(lastGuest)
-      console.log(window.location.origin + "/eventacceptation/" + eventData._id + "/" + lastGuest)
+      const shareLink = "http://192.168.0.60:8563" + "/eventacceptation/" + eventData._id + "/" + lastGuest
+      console.log(shareLink)
+
+      // send email to guest with share link /email/sendemail passing email subject and text trow body
+      publicRequest(user.accessToken).post("email/sendemail",{
+        email:guestInfo.email,
+        subject:"Invitation to party",
+        text:`Hi ${guestInfo.name} you are invited to ${eventData.title} party on ${eventData.date} at ${eventData.time}
+        click on this link to accept or decline ${shareLink}`
+      })
+      // refresh page
+      window.location.reload()
+
+      
   })
   .catch((err) => {
       console.log(err.response.data)
@@ -54,7 +70,6 @@ const handleSubmit = (e) => {
 
 
 
-const guests = ["Guest 1", "Guest 2", "Guest 3"];
 
   return (
     <div className="flex flex-col items-center justify-center bg-blue-200 " >
@@ -119,25 +134,29 @@ const guests = ["Guest 1", "Guest 2", "Guest 3"];
       </div>
       <div className="max-w-md w-full px-4">
         <h2 className="text-lg font-medium my-8">Invited Guests</h2>
-        <ul className="bg-white rounded-lg shadow-md divide-y divide-gray-200">
-          {eventData?.gestList?.map((guest, index) => {
-            const getGuestClass = () => {
-              
-              if (eventData.acceptedGestList.includes(guest._id)) {
-                return "bg-green-200";
-              
-              } else {
-                return "text-gray-900";
-              }
-            };
+        {/* amount of guest coming to event */}
+        <p className="text-gray-900 mb-4">
+          {eventData.acceptedGestList?.length} of {eventData.gestList?.length} guests are coming
+        </p>
+        <ul className="bg-white rounded-lg shadow-md divide-y divide-gray-200 mb-5">
+        {eventData?.gestList?.map((guest, index) => {
+          const getGuestClass = () => {
+            
+            if (eventData.acceptedGestList.includes(guest._id)) {
+              return "bg-green-200";
+            
+            } else {
+              return "text-gray-900";
+            }
+          };
 
-            return (
-              <li key={index} className={`px-6 py-4 ${getGuestClass()}`}>
-                <p className="text-gray-900">{guest.name}</p>
-              </li>
-            );
-          })}
-        </ul>
+          return (
+            <li key={index} className={`px-6 py-4 ${getGuestClass()}`}>
+              <p className="text-gray-900">{guest.name}</p>
+            </li>
+          );
+        })}
+      </ul>
       </div>
     </div>
 

@@ -21,6 +21,8 @@ export default function EventAcceptation() {
                 if (!guest) {
                     window.alert("You are not invited to this event")
                     setInvited(false)
+                    // close window
+                    
                    
                 }
 
@@ -38,6 +40,8 @@ export default function EventAcceptation() {
             .then((res) => {
                 // allert to say that guest added
                 window.alert("You are going to this event")
+                // close window
+                window.close()
                 
             })
             .catch((err) => {
@@ -55,6 +59,8 @@ export default function EventAcceptation() {
             .then((res) => {
                 // allert to say that guest added
                 window.alert("You are not going to this event")
+                window.close()
+
                 
 
             })

@@ -59,13 +59,26 @@ const handleSubmit = (e) => {
       window.location.reload()
 
       
-  })
-  .catch((err) => {
-      console.log(err.response.data)
-  })
-}
+    })
+      .catch((err) => {
+          console.log(err.response.data)
+      })
+  }
 
   
+  // creat sharelink base on guest id and event id with even.target.id
+  const shareLink = (e) => {
+    const shareLink = "http://192.168.0.60:8563" + "/eventacceptation/" + eventData._id + "/" + e.target.id
+    console.log(shareLink)
+    // copy share link to clipboard
+    navigator.clipboard.writeText(shareLink).then(() => {
+      console.log('Link copied to clipboard');
+      window.alert('Link Copied');
+    }).catch((err) => {
+      console.error('Failed to copy link: ', err);
+    });
+  
+  }
 
 
 
@@ -151,8 +164,10 @@ const handleSubmit = (e) => {
           };
 
           return (
-            <li key={index} className={`px-6 py-4 ${getGuestClass()}`}>
-              <p className="text-gray-900">{guest.name}</p>
+            <li key={index} className={`flex px-6 py-4 justify-between ${getGuestClass()}`}>
+              <p className="text-gray-900" id ={guest._id}>{guest.name}</p>
+            
+              <button className="bg-blue-500 text-white rounded-lg px-4 py-2 font-medium hover:bg-blue-600 transition-colors" id={guest._id} onClick={shareLink}>Share</button>
             </li>
           );
         })}

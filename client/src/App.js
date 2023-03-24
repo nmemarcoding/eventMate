@@ -1,5 +1,5 @@
 import { BrowserRouter as Router,Routes,Route} from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState} from 'react';
 import Navbar from './components/Navbar/Navbar';
 import CreatEventPage from './pages/CreatEventPage/CreatEventPage';
 import HomePage from './pages/HomePage/HomePage';
@@ -7,10 +7,35 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 import AddGuestPage from './pages/AddGuestPage/AddGuestPage';
 import EventAcceptation from './pages/EventAcceptation/EventAcceptation';
+import { publicRequest } from './hooks/requestMethods';
 
 function App() { 
   const [user, setUser] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null);
+  const [serveIsRunning, setServeIsRunning] = useState(false)
 
+  useEffect(() => {
+    publicRequest().get("/start")
+      .then((res) => {
+        setServeIsRunning(true)
+      })
+      .catch((err) => {
+        console.log(err)
+        
+        setServeIsRunning(false)
+      })
+  }, [])
+  console.log(serveIsRunning)
+  if(!serveIsRunning){
+    return <div class="flex items-center justify-center h-screen">
+    <div class="app">
+      <h1 class="animate-pulse animate-slow text-4xl font-bold text-center">EVENTMATE</h1>
+    </div>
+  </div>
+  
+  
+
+  }
+  else{
   
   return <Router>
     
@@ -36,5 +61,6 @@ function App() {
 
     </Router>
   }
+}
 
 export default App;

@@ -5,7 +5,8 @@ import { publicRequest } from '../../hooks/requestMethods'
 
 
 export default function AddGuestPage() {
-
+  
+  
   const [eventData,setEventData] = useState({})
   const [user] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null);
   const [guestInfo, setGuestInfo] = useState({name:"",phone:"",email:""})
@@ -45,7 +46,8 @@ const handleSubmit = (e) => {
       //gtting last guest  from gest list
       const lastGuest = res.data.gestList[res.data.gestList.length - 1]
       console.log(lastGuest)
-      const shareLink = "http://192.168.0.60:8563" + "/eventacceptation/" + eventData._id + "/" + lastGuest
+      
+      const shareLink = window.location.origin + "/eventacceptation/" + eventData._id + "/" + lastGuest
       console.log(shareLink)
 
       // send email to guest with share link /email/sendemail passing email subject and text trow body
@@ -54,6 +56,10 @@ const handleSubmit = (e) => {
         subject:"Invitation to party",
         text:`Hi ${guestInfo.name} you are invited to ${eventData.title} party on ${eventData.date} at ${eventData.time}
         click on this link to accept or decline ${shareLink}`
+      }).then((res) => {
+        console.log(res.data)
+      }).catch((err) => {
+        console.log(err.response.data)
       })
       // refresh page
       window.location.reload()
@@ -68,7 +74,7 @@ const handleSubmit = (e) => {
   
   // creat sharelink base on guest id and event id with even.target.id
   const shareLink = (e) => {
-    const shareLink = "http://192.168.0.60:8563" + "/eventacceptation/" + eventData._id + "/" + e.target.id
+    const shareLink = window.location.origin + "/eventacceptation/" + eventData._id + "/" + e.target.id
     console.log(shareLink)
     // copy share link to clipboard
     navigator.clipboard.writeText(shareLink).then(() => {

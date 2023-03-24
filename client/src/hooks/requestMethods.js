@@ -1,7 +1,8 @@
 
 import axios from "axios";
 
-const BASE_URL = " http://192.168.0.60:3002/api/";
+// const BASE_URL = " http://192.168.0.60:3002/api/";
+const BASE_URL = "https://eventmate.onrender.com/api/";
 
 
 

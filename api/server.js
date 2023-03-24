@@ -28,7 +28,7 @@ mongoose
 app.use("/api/auth", authRoute);
 app.use("/api/event", eventRoute);
 app.use("/api/email", emailRoute);
-
+app.use("/api/start",require('./routes/start.js'));
 
 
 const port = process.env.PORT || 3002;
